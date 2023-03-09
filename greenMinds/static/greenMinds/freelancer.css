@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #d8f3dc ;
+
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .profile-section {
+    background-color: #F7F7F7;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+  }
+  
+  .profile-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-section p {
+    font-size: 18px;
+  }
+  
+  .update-button {
+    background-color: #40916c;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .update-button:hover {
+    background-color: #40916c;
+  }
+  
+  .star-rating {
+    font-size: 36px;
+    color: #FFD700;
+  }
+  
+  .checked {
+    color: orange;
+  }
+  
+  .profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  
+  #profile-picture-input {
+    display: none;
+  }
+  
+  .invite-button {
+    background-color: #40916c;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .invite-button:hover {
+    background-color: #52b788;
+  }
+  
+.my-dashboard{
+    background-color: #40916c;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.fcc-btn {
+  background-color: #40916c;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Green Minds</title>
+    <link rel="stylesheet" href="{% static 'greenMinds/style.css' %}">
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="{% static 'greenMinds/logo.png' %}" alt="My Logo">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="{% url 'logIn' %}">Login</a></li>
+          <li><a href="{% url 'signUp' %}">Sign Up</a></li>
+          <li><a href="{% url 'aboutUs' %}">About Us</a></li>
+          <li><a href="{% url 'browseJobs' %}">Browse Jobs</a></li>
+          <li><a href="{% url 'howItWorks' %}">How It Works</a></li>
+          <li><a href="{% url 'profile' %}">Demo Profile</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Connecting Talent to Opportunity: Bringing Skills and Services Together!
+        </h1>
+        <p>We are the best job search platform.</p>
+        <button>Get Started</button>
+      </div>
+      <div class="hero-image">
+        <img src="{% static 'greenMinds/freelancing.webp' %}" alt="Hero Image">
+      </div>
+    </section>
+    
+    <section class="categories">
+      <h2>Job Categories</h2>
+      <div class="category">
+        <img src="{% static 'greenMinds/web-design.avif' %}" alt="Category Image">
+        <h3>Web Design</h3>
+        <p>Description of category.</p>
+        <a href="#">View Jobs</a>
+      </div>
+      <div class="category">
+        <img src="{% static 'greenMinds/Machine_Learning.png' %}" alt="Category Image">
+        <h3>Machine Learning</h3>
+        <p>Description of category.</p>
+        <a href="#">View Jobs</a>
+      </div>
+      <div class="category">
+        <img src="{% static 'greenMinds/graphic-design.svg' %}" alt="Category Image">
+        <h3>Graphic Design</h3>
+        <p>Description of category.</p>
+        <a href="#">View Jobs</a>
+      </div>
+    </section>
+    
+    <footer>
+      <div class="footer-content">
+        <h4>Green Minds</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p>&copy; 2023 COEN course project. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
+
