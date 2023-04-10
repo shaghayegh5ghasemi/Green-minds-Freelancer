@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title> {{object.name}} </title>
+  <link rel="icon" href="{% static 'jobs/media/logo.png' %}" type="image/icon type">
+	<link rel="stylesheet" type="text/css" href="{% static 'jobs/css/freelancer_detail.css' %}">
+</head>
+<body>
+    <h1>My Profile</h1>
+    <div class="profile-container">
+      <div class="profile-section">
+        <h2>Profile Picture</h2>
+        <img src="{% static 'jobs/media/pf pic2.webp' %}" alt="Profile Picture" class="profile-picture">
+        <input type="file" id="profile-picture-input" accept="image/*">
+        <button class="update-button" id="update-profile-picture-button">Update Profile Picture</button>
+      </div>
+      <div class="profile-section">
+        <h2>User Name</h2>
+        <p>{{ object.name }}</p>
+        <button class="update-button">Update User Name</button>
+      </div>
+      <div class="profile-section">
+        <h2>My Score</h2>
+        <div class="star-rating">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+        </div>
+        <p> {{ object.rate }} </p>
+      </div>
+      <div class="profile-section">
+        <h2>Jobs Completed</h2>
+        <p>{{ object.completedJobs }}</p>
+      </div>
+      <div class="profile-section">
+        <h2>Join Date</h2>
+        <p>{{ object.joinedDate|date }}</p>
+      </div>
+      <div class="profile-section">
+        <h2>Skills</h2>
+        <p> {{ object.skills }} </p>
+        <button class="update-button">Update Skills</button>
+      </div>
+      <div class="profile-section">
+        <h2>About Me</h2>
+        <p>{{object.about}}</p>
+        <button class="update-button">Update About Me</button>
+      </div>
+      <div class="profile-section">
+        <h2>Certifications</h2>
+        <p> {{object.certifications}} </p>
+        <button class="update-button">Attach Certifications</button>
+      </div>
+      <div class="profile-section">
+        <h2>Wallet (CAD)</h2>
+        <p>{{ object.wallet }}</p>
+      </div>
+
+      
+      <div class="profile-section">
+        <button class="invite-button">Invite Friends</button>
+      </div>
+      <div class="profile-section">
+        <button class="my-dashboard">My Dashboard</button>
+      </div>
+    </div>
+  </body>
+  
