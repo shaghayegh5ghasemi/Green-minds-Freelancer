@@ -1,28 +1,60 @@
 from django.shortcuts import render
-
-
+from django.views.generic import ListView
 from jobs.models import Freelancer, Business
 
-def home(request):
-    if request.user.is_authenticated:
-        if request.user.get_freelancer():
-            f_id = request.user.get_freelancer().id
-            freelancers = Freelancer.objects.all().exclude(id=f_id)[:3]
-            businesses = Business.objects.all()[:3]
-        elif request.user.get_business():
-            b_id = request.user.get_business().id
-            freelancers = Freelancer.objects.all()[:3]
-            businesses = Business.objects.all().exclude(id=b_id)[:3]
+
+
+class FreelancerListViews(ListView):
+    model = Freelancer
+
+class BusinessListViews(ListView):
+    model = Business
+
+
+def view_business_profile(request, pk):
+    business = Business.objects.get(id=pk)
+    context = {
+        'business': business,
+    }
+
+    return render(request, 'jobs/other_business_profile.html', context)
+
+def view_freelancer_profile(request, pk):
+    freelancer = Freelancer.objects.get(id=pk)
+    context = {
+        'freelancer': freelancer,
+    }
+
+    return render(request, 'jobs/other_freelancer_profile.html', context)
+
+def search(request):
+    searched_query = request.GET.get('searched_query')
+    if searched_query:
+        freelancers = Freelancer.objects.filter(name=searched_query)
+        businesses = Business.objects.filter(name=searched_query)
+
         context = {
             'freelancers': freelancers,
-            'businesses': businesses
+            'businesses': businesses,
+            'searched_query': searched_query,
         }
         return render(request, 'jobs/home.html', context)
     else:
-        freelancers = Freelancer.objects.all()[:3]
-        businesses = Business.objects.all()[:3]
-        context = {
-            'freelancers': freelancers,
-            'businesses': businesses
-        }
+        context = {}
         return render(request, 'jobs/home.html', context)
+
+def freelancer_report(request, pk):
+    freelancer = Freelancer.objects.get(id=pk)
+    context = {
+        'freelancer': freelancer,
+        'user': request.user,
+    }
+    return render(request, 'jobs/freelancer_report.html', context)
+
+def business_report(request, pk):
+    business = Business.objects.get(id=pk)
+    context = {
+        'business': business,
+        'user': request.user,
+    }
+    return render(request, 'jobs/business_report.html', context) # remember to change
