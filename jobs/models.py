@@ -64,3 +64,11 @@ class Project(models.Model):
 
     def __str__(self) -> str:
         return f'{self.id} | {self.owner.name}'
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Freelancer, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.profile.name}: {self.rating}"

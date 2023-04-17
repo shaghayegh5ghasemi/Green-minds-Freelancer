@@ -19,4 +19,6 @@ urlpatterns = [
     path('project/create', ProjectCreateView.as_view(), name='project-create'),
     path('project/<int:pk>', view_project_profile, name='project-profile'),
     path('accept-project/<int:pk>', accept_project, name='accept-project'),
+    path('send-invitation/', invite, name='send-invitation'),
+    path('rate/<int:profile_id>/<int:rating>/', rate),
 ]

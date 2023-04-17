@@ -244,6 +244,14 @@ def search(request):
         context = {}
         return render(request, 'jobs/home.html', context)   
 
+def rate(request, profile_id, rating):
+    freelancer = Freelancer.objects.get(id=profile_id)
+    Rating.objects.filter(profile=freelancer, user=request.user).delete()
+    # freelancer.rating_set.create(user=request.user, rating=rating)
+    new_rating = Rating(profile=freelancer, user=request.user, rating=rating)
+    new_rating.save()
+    return view_freelancer_profile(request, profile_id)
+    
 @login_required
 def handle_login(request):
     if request.user.get_freelancer() or request.user.get_business():
@@ -322,5 +330,27 @@ def accept_project(request, pk):
     Project.objects.filter(id=pk).update(developer=freelancer)
     return redirect(reverse_lazy('profile'))
 
-
+def invite(request):
+    Invitation = get_invitation_model()
+    # sender = request.user.email
+    receiver = request.GET.get('invitation')
+    invite = Invitation.create(receiver, inviter=request.user)
+    link = f'http://localhost:8000/invitations/accept-invite/{invite.key}'
+    invite_msg = f'Hello, You ({receiver}) have been invited to join Green Minds. If you would like to join, please go to {link}'
+    subject = 'Invitation to join Green Minds'
+    # send_mail(subject, invite_msg, sender, [receiver, receiver])
+    with get_connection(  
+        host=settings.EMAIL_HOST, 
+        port=settings.EMAIL_PORT,  
+        username=settings.EMAIL_HOST_USER, 
+        password=settings.EMAIL_HOST_PASSWORD, 
+        use_tls=settings.EMAIL_USE_TLS  
+       ) as connection:  
+           subject = subject  
+           email_from = settings.EMAIL_HOST_USER  
+           recipient_list = [receiver, ]  
+           message = invite_msg
+           EmailMessage(subject, message, email_from, recipient_list, connection=connection).send()
+    invite.send_invitation(request)
+    return redirect(reverse_lazy('profile'))
 
