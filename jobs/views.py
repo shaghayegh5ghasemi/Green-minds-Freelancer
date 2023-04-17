@@ -64,6 +64,8 @@ def home(request):
         }
         return render(request, 'jobs/home.html', context)
 
+def faq(request):
+    return render(request, 'jobs/FAQ.html')
 
 def FreelancerListViews(request):
     if request.user.is_authenticated:
@@ -243,6 +245,7 @@ def search(request):
     else:
         context = {}
         return render(request, 'jobs/home.html', context)   
+
 def freelancer_report(request, pk):
     freelancer = Freelancer.objects.get(id=pk)
     
@@ -281,6 +284,14 @@ def business_report(request, pk):
     }
     return render(request, 'jobs/business_report.html', context) 
 
+def rate(request, profile_id, rating):
+    freelancer = Freelancer.objects.get(id=profile_id)
+    Rating.objects.filter(profile=freelancer, user=request.user).delete()
+    # freelancer.rating_set.create(user=request.user, rating=rating)
+    new_rating = Rating(profile=freelancer, user=request.user, rating=rating)
+    new_rating.save()
+    return view_freelancer_profile(request, profile_id)
+
 def change_status(request, profile_id, project_id, new_status):
     project = Project.objects.get(id=project_id)
     if new_status == 0:
@@ -290,15 +301,7 @@ def change_status(request, profile_id, project_id, new_status):
         project.is_complete = True
         project.save()
     return freelancer_report(request, profile_id)
-
-def rate(request, profile_id, rating):
-    freelancer = Freelancer.objects.get(id=profile_id)
-    Rating.objects.filter(profile=freelancer, user=request.user).delete()
-    # freelancer.rating_set.create(user=request.user, rating=rating)
-    new_rating = Rating(profile=freelancer, user=request.user, rating=rating)
-    new_rating.save()
-    return view_freelancer_profile(request, profile_id)
-    
+ 
 @login_required
 def handle_login(request):
     if request.user.get_freelancer() or request.user.get_business():
