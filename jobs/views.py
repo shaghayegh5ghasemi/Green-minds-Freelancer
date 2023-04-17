@@ -243,6 +243,53 @@ def search(request):
     else:
         context = {}
         return render(request, 'jobs/home.html', context)   
+def freelancer_report(request, pk):
+    freelancer = Freelancer.objects.get(id=pk)
+    
+    projects_id = []
+    all_projects = Project.objects.all()
+    for p in all_projects:
+        if p.developer == freelancer:
+            projects_id.append(p.id)
+
+
+    projects = Project.objects.filter(id__in=projects_id)
+
+    context = {
+        'freelancer': freelancer,
+        'user': request.user,
+        'projects': projects
+    }
+    return render(request, 'jobs/freelancer_report.html', context)
+
+def business_report(request, pk):
+    business = Business.objects.get(id=pk)
+
+
+    projects_id = []
+    all_projects = Project.objects.all()
+    for p in all_projects:
+        if p.owner == business:
+            projects_id.append(p.id)
+
+    projects = Project.objects.filter(id__in=projects_id)
+
+    context = {
+        'business': business,
+        'user': request.user,
+        'projects': projects
+    }
+    return render(request, 'jobs/business_report.html', context) 
+
+def change_status(request, profile_id, project_id, new_status):
+    project = Project.objects.get(id=project_id)
+    if new_status == 0:
+        project.is_complete = False
+        project.save()
+    else:
+        project.is_complete = True
+        project.save()
+    return freelancer_report(request, profile_id)
 
 def rate(request, profile_id, rating):
     freelancer = Freelancer.objects.get(id=profile_id)
