@@ -64,8 +64,6 @@ def home(request):
         }
         return render(request, 'jobs/home.html', context)
 
-def faq(request):
-    return render(request, 'jobs/FAQ.html')
 
 def FreelancerListViews(request):
     if request.user.is_authenticated:
@@ -157,7 +155,6 @@ def ProjectListViews(request):
     }
     return render(request, 'jobs/project_list.html', context)
 
-
 class FreelancerCreateView(CreateView):
     model = Freelancer
     fields = ['name', 'profile_pic', 'skills', 'about']
@@ -245,63 +242,7 @@ def search(request):
         return render(request, 'jobs/home.html', context)
     else:
         context = {}
-        return render(request, 'jobs/home.html', context)
-
-def freelancer_report(request, pk):
-    freelancer = Freelancer.objects.get(id=pk)
-    
-    projects_id = []
-    all_projects = Project.objects.all()
-    for p in all_projects:
-        if p.developer == freelancer:
-            projects_id.append(p.id)
-
-
-    projects = Project.objects.filter(id__in=projects_id)
-
-    context = {
-        'freelancer': freelancer,
-        'user': request.user,
-        'projects': projects
-    }
-    return render(request, 'jobs/freelancer_report.html', context)
-
-def business_report(request, pk):
-    business = Business.objects.get(id=pk)
-
-    projects_id = []
-    all_projects = Project.objects.all()
-    for p in all_projects:
-        if p.owner == business:
-            projects_id.append(p.id)
-
-    projects = Project.objects.filter(id__in=projects_id)
-
-    context = {
-        'business': business,
-        'user': request.user,
-        'projects': projects
-    }
-    return render(request, 'jobs/business_report.html', context) # remember to change
-
-def rate(request, profile_id, rating):
-    freelancer = Freelancer.objects.get(id=profile_id)
-    Rating.objects.filter(profile=freelancer, user=request.user).delete()
-    # freelancer.rating_set.create(user=request.user, rating=rating)
-    new_rating = Rating(profile=freelancer, user=request.user, rating=rating)
-    new_rating.save()
-    return view_freelancer_profile(request, profile_id)
-
-def change_status(request, profile_id, project_id, new_status):
-    project = Project.objects.get(id=project_id)
-    if new_status == 0:
-        project.is_complete = False
-        project.save()
-    else:
-        project.is_complete = True
-        project.save()
-    return freelancer_report(request, profile_id)
-    
+        return render(request, 'jobs/home.html', context)   
 
 @login_required
 def handle_login(request):
@@ -379,30 +320,6 @@ class ProjectCreateView(CreateView):
 def accept_project(request, pk):
     freelancer = request.user.get_freelancer()
     Project.objects.filter(id=pk).update(developer=freelancer)
-    return redirect(reverse_lazy('profile'))
-
-def invite(request):
-    Invitation = get_invitation_model()
-    # sender = request.user.email
-    receiver = request.GET.get('invitation')
-    invite = Invitation.create(receiver, inviter=request.user)
-    link = f'http://localhost:8000/invitations/accept-invite/{invite.key}'
-    invite_msg = f'Hello, You ({receiver}) have been invited to join Green Minds. If you would like to join, please go to {link}'
-    subject = 'Invitation to join Green Minds'
-    # send_mail(subject, invite_msg, sender, [receiver, receiver])
-    with get_connection(  
-        host=settings.EMAIL_HOST, 
-        port=settings.EMAIL_PORT,  
-        username=settings.EMAIL_HOST_USER, 
-        password=settings.EMAIL_HOST_PASSWORD, 
-        use_tls=settings.EMAIL_USE_TLS  
-       ) as connection:  
-           subject = subject  
-           email_from = settings.EMAIL_HOST_USER  
-           recipient_list = [receiver, ]  
-           message = invite_msg
-           EmailMessage(subject, message, email_from, recipient_list, connection=connection).send()
-    invite.send_invitation(request)
     return redirect(reverse_lazy('profile'))
 
 
