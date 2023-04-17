@@ -16,8 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('jobs.urls')),
+    path('chat/', include('chat.urls')),
     path('accounts/', include('allauth.urls')),
+    path("invitations/", include('invitations.urls', namespace='invitations')),
 ]
+
+if settings.DEBUG: 
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
